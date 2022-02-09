@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "grpcClient_lib",
+    srcs = ["grpcClient.go"],
+    importpath = "github.com/pathak107/k8Example/grpcClient",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//k8grpc",
+        "@org_golang_google_grpc//:go_default_library",
+        "@org_golang_x_net//context",
+    ],
+)
+
+go_binary(
+    name = "grpcClient",
+    embed = [":grpcClient_lib"],
+    visibility = ["//visibility:public"],
+)

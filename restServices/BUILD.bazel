@@ -1,0 +1,12 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "restServices",
+    srcs = ["restServices.go"],
+    importpath = "github.com/pathak107/k8Example/restServices",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//k8service",
+        "@io_k8s_client_go//kubernetes",
+    ],
+)

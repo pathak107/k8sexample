@@ -1,0 +1,27 @@
+syntax="proto3";
+package k8grpc;
+option go_package = "github.com/pathak107/k8Example/k8grpc";
+service K8service{
+    rpc GetPods(Request) returns (PodList) {}
+    rpc GetDeployments(Request) returns (DeploymentList) {}
+    rpc GetServices(Request) returns (ServiceList) {}
+    rpc GetSecrets(Request) returns (SecretList) {}
+}
+
+message Request {}
+
+message PodList {
+    repeated string pods=1;
+}
+
+message DeploymentList {
+    repeated string deployments=1;
+}
+
+message ServiceList {
+    repeated string services=1;
+}
+
+message SecretList {
+    repeated string secrets=1;
+}

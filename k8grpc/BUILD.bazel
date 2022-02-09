@@ -1,0 +1,24 @@
+load("@rules_proto//proto:defs.bzl", "proto_library")
+load("@io_bazel_rules_go//proto:def.bzl", "go_proto_library")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "k8grpc",
+    embed = [":k8grpc_go_proto"],
+    importpath = "github.com/pathak107/k8Example/k8grpc",
+    visibility = ["//visibility:public"],
+)
+
+proto_library(
+    name = "k8grpc_proto",
+    srcs = ["k8grpc.proto"],
+    visibility = ["//visibility:public"],
+)
+
+go_proto_library(
+    name = "k8grpc_go_proto",
+    compilers = ["@io_bazel_rules_go//proto:go_grpc"],
+    importpath = "github.com/pathak107/k8Example/k8grpc",
+    proto = ":k8grpc_proto",
+    visibility = ["//visibility:public"],
+)

@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8example-deployment
+  labels:
+    app: k8example
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k8example
+  template:
+    metadata:
+      labels:
+        app: k8example
+    spec:
+      containers:
+      - name: k8example
+        image: pathak107/k8example
+        ports:
+        - containerPort: 3000
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    cloud.google.com/app-protocols: '{"my-port":"HTTP2"}'
+  name: k8example
+  labels:
+    app: k8example
+spec:
+  type: NodePort
+  ports:
+  - port: 3000
+    targetPort: 3000
+    protocol: TCP
+    name: my-port
+    nodePort: 30001
+  externalIPs: 
+    - 10.96.184.178
+  selector:
+    app: k8example
+
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default
+  name: role-manager
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["pods","deployments","services","secrets"]
+  verbs: ["*"]
+
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: deployment-manager-binding
+  namespace: default
+subjects:
+- kind: User
+  name: system:serviceaccount:default:default
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: role-manager
+  apiGroup: rbac.authorization.k8s.io

@@ -1,0 +1,13 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "grpcserverservice",
+    srcs = ["grpcserverservice.go"],
+    importpath = "github.com/pathak107/k8Example/grpcserverservice",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//k8grpc",
+        "//k8service",
+        "@io_k8s_client_go//kubernetes",
+    ],
+)
