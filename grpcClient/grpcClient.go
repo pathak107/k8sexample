@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"golang.org/x/net/context"
@@ -12,7 +13,8 @@ import (
 func main() {
 
 	var conn *grpc.ClientConn
-	conn, err := grpc.Dial("192.168.64.2:30001", grpc.WithInsecure())
+	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
+	// conn, err := grpc.Dial("192.168.64.2:30001", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("did not connect: %s", err)
 	}
@@ -22,25 +24,25 @@ func main() {
 
 	pods, err := client.GetPods(context.Background(), &pb.Request{})
 	if err != nil {
-		log.Fatalf("Error when calling SayHello: %s", err)
+		log.Fatalf("Error when calling GetPods grpc: %s", err)
 	}
-	log.Printf("Response from server: %s", pods.Pods[:])
+	fmt.Printf("\nCalling grpc GetPods:\nResponse:\n %s\n", pods.Pods[:])
 
 	dep, err := client.GetDeployments(context.Background(), &pb.Request{})
 	if err != nil {
-		log.Fatalf("Error when calling SayHello: %s", err)
+		log.Fatalf("Error when calling GetDeployments: %s", err)
 	}
-	log.Printf("Response from server: %s", dep.Deployments[:])
+	fmt.Printf("\nCalling grpc Deployments:\nResponse:\n %s\n", dep.Deployments[:])
 
 	secrets, err := client.GetSecrets(context.Background(), &pb.Request{})
 	if err != nil {
-		log.Fatalf("Error when calling SayHello: %s", err)
+		log.Fatalf("Error when calling GetSecrets: %s", err)
 	}
-	log.Printf("Response from server: %s", secrets.Secrets[:])
+	fmt.Printf("\nCalling grpc GetSecrets:\nResponse:\n %s\n", secrets.Secrets[:])
 
 	services, err := client.GetServices(context.Background(), &pb.Request{})
 	if err != nil {
-		log.Fatalf("Error when calling SayHello: %s", err)
+		log.Fatalf("Error when calling getservices: %s", err)
 	}
-	log.Printf("Response from server: %s", services.Services[:])
+	fmt.Printf("\nCalling grpc GetServices:\nResponse:\n %s\n", services.Services[:])
 }
