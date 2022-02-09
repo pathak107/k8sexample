@@ -25,7 +25,8 @@ WORKDIR /
 COPY --from=build /k8Example /k8Example
 
 EXPOSE 3000
+EXPOSE 9000
 
 USER nonroot:nonroot
 
-ENTRYPOINT ["/k8Example"]
+ENTRYPOINT ["/k8Example", "--server=grpc"]

@@ -38,10 +38,10 @@ securityContext: {}
 
 service:
   type: NodePort
-  name: http
+  name: grpcport
   protocol: TCP
-  port: 3000
-  targetPort: 3000
+  port: 9000
+  targetPort: 9000
   nodePort: 30001
   externalIPs:
     - 80.11.12.10

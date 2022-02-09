@@ -29,7 +29,11 @@ func main() {
 	flag.StringVar(&server, "server", "rest", "State the server type server=rest or server=grpc")
 	flag.Parse()
 
-	if server == "grpc" {
+	if server == "rest" {
+		restServices.InitRoutes(clientset, k8s)
+		log.Fatal(http.ListenAndServe(":3000", nil))
+
+	} else {
 		grpcserverservice.Init(k8s, clientset)
 		lis, err := net.Listen("tcp", fmt.Sprintf("0.0.0.0:%d", 9000))
 		if err != nil {
@@ -45,10 +49,6 @@ func main() {
 		if err := grpcServer.Serve(lis); err != nil {
 			log.Fatalf("failed to serve: %s", err)
 		}
-
-	} else {
-		restServices.InitRoutes(clientset, k8s)
-		log.Fatal(http.ListenAndServe(":3000", nil))
 	}
 
 }

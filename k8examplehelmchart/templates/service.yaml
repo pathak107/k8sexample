@@ -11,7 +11,7 @@ spec:
       targetPort: {{ .Values.service.targetPort }}
       nodePort: {{ .Values.service.nodePort }}
       protocol: TCP
-      name: http
+      name: grpcport
       
   selector:
     {{- include "k8examplehelmchart.selectorLabels" . | nindent 4 }}
